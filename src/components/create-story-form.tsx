@@ -132,7 +132,7 @@ export function CreateStoryForm() {
           <Label htmlFor="moral">The moral of the story is - optional</Label>
           <Textarea
             id="moral"
-            placeholder="Describe the moral of the illustration"
+            placeholder="Describe the moral of the story"
             value={moral}
             cols={5}
             onChange={(e) => setMoral(e.target.value)}

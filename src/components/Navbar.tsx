@@ -31,8 +31,8 @@ async function Navbar() {
               className="hover:underline font-semibold text-lg"
             >
               <Button
-                variant={"ghost"}
-                className="hover:bg-[#dbd0c3] duration-100"
+                variant={"outline"}
+                className="hover:bg-[#dbd0c3] bg-[#FEF2E2] border-primary/30  duration-100"
               >
                 {" "}
                 Your Stories

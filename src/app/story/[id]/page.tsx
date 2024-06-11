@@ -28,8 +28,6 @@ async function page({ params }: { params: { id: string } }) {
       return redirect("/not-found");
     }
 
-    console.log(story);
-
     let swappedImage = null;
     if (story.userImage) {
       try {
