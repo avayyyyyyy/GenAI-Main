@@ -59,7 +59,7 @@ export async function GenerateBody({
 
     return result.response.text();
   }
-  const finalPrompt = `write a 8 long paragraphs bed time story in ${language} language for small girl of age group ${age} years, about ${prompt} which should be easy understandable, engaging and contains some sort of suspense and give output as a json object`;
+  const finalPrompt = `write a 8 long paragraphs bed time story in ${language} language for small girl of age group ${age} years, about ${prompt} which should be easy understandable, engaging and contains some sort of suspense and make sure to give output as a valid json object`;
 
   const result = await chatSession.sendMessage(finalPrompt);
   console.log(result.response.text());

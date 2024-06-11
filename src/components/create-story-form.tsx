@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+
+import { useState, FormEvent } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,63 +13,61 @@ import {
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
-import { FormEvent } from "react";
 import { createStory } from "@/actions/createStory";
 import { useRouter } from "next/navigation";
 import { Loader, WandSparkles } from "lucide-react";
+import { toast } from "sonner";
 
 const bedtimeStories = [
-  "The Magic Pillow - A pillow that takes you on magical adventures in your dreams.",
-  "Teddy's Great Adventure - Follow Teddy and his friends on exciting bedtime escapades.",
-  "The Enchanted Forest - Discover the secrets hidden within the mystical forest.",
-  "Dreamland Explorers - Embark on an unforgettable journey through the land of dreams.",
-  "Moonlight Dreams - Experience the beauty and wonder of the moonlit night.",
-  "The Secret Door - Find the hidden door that leads to a world of imagination.",
-  "Starlight Wishes - Make wishes upon the twinkling stars before drifting off to sleep.",
-  "The Little Dream Catcher - Learn the story of a small dream catcher with big dreams.",
-  "Lost Lullabies - Help find the lost lullabies and restore peace to Dreamland.",
-  "Wonder Tales - Dive into a collection of enchanting bedtime tales filled with wonder.",
-  "The Sleepy Sloth - Join a sleepy sloth on its nighttime adventures.",
-  "Moonlit Meadow - Explore the magical meadow under the light of the moon.",
-  "Nighttime Ninja - Follow the stealthy ninja as they navigate the night.",
-  "Dreamy Dragon - Encounter a friendly dragon who visits in dreams.",
-  "Sleepwalking Unicorn - Join a unicorn on its sleepwalking adventures.",
-  "Bedtime Brigade - Join the brave bedtime brigade on their nightly missions.",
-  "Cozy Cottage Chronicles - Discover the cozy secrets of the charming cottage.",
-  "Nighttime Navigators - Navigate through the night with the help of friendly creatures.",
-  "Dreamland Dancers - Dance with the dreamland dancers under the starry sky.",
-  "Sleepy Sea Adventure - Set sail on a sleepy sea adventure with whimsical sea creatures.",
-  "Midnight Magic - Experience the magic that happens when the clock strikes midnight.",
-  "Dream Weaver - Meet the mysterious dream weaver who spins dreams into reality.",
-  "Sleepy Bear - Follow a sleepy bear as it prepares for hibernation.",
-  "Magical Mermaid - Dive deep into the ocean and meet a magical mermaid.",
-  "Starlight Symphony - Listen to the soothing melodies of the starlight symphony.",
-  "Dreamy Dinosaur - Travel back in time and meet a friendly dinosaur in your dreams.",
-  "Nighttime Tales - Listen to enchanting tales that come to life under the night sky.",
-  "Whispering Winds - Hear the secrets whispered by the gentle nighttime winds.",
-  "Moonlit Magic - Experience the enchantment of the moonlit night.",
-  "Sleepy Owl's Adventure - Join a sleepy owl on its nighttime quest for adventure.",
-  "Starry Night Serenade - Enjoy a serenade under the twinkling stars.",
-  "Dreamland Delights - Explore the delightful wonders of Dreamland.",
-  "Twilight Treasures - Discover treasures hidden in the twilight hours.",
-  "Nighttime Nook - Find comfort and warmth in the nighttime nook.",
-  "Sleepy Time Tales - Listen to tales that lull you into a peaceful slumber.",
-  "Moonbeam Magic - Experience the magic of moonbeams shining through the night.",
-  "Dreamy Wonderland - Wander through a whimsical wonderland in your dreams.",
-  "Nighttime Navigators - Navigate through the night with the help of friendly creatures.",
-  "Dreamland Dreams - Dream of fantastical adventures in the land of dreams.",
-  "Starlit Stories - Listen to stories told by the stars in the night sky.",
-  "Sleepy Sailing - Set sail on a sleepy voyage across the night sea.",
-  "Midnight Musings - Reflect on the mysteries of the midnight hour.",
-  "Dreamland Diaries - Explore the diary of dreams and imagination.",
-  "Lullaby Lagoon - Drift off to sleep by the tranquil waters of Lullaby Lagoon.",
-  "Moonlit Memories - Create cherished memories under the moonlit sky.",
-  "Twinkle Tales - Listen to tales that twinkle like stars in the night sky.",
-  "Snoozeville Stories - Journey to Snoozeville and discover its magical stories.",
-  "Dreamy Days - Spend your days dreaming of magical adventures.",
+  "The Adventures of Starry the Unicorn - Follow Starry on a magical quest to save the stars from a dark curse.",
+  "The Moonlit Pirate Treasure - Join young pirates as they search for hidden treasure under the light of the full moon.",
+  "The Enchanted Clock - Discover the secret of a mystical clock that can stop and reverse time.",
+  "The Dragon's Secret - Unveil the mysteries hidden in a dragon's cave and the bond between a young boy and a wise dragon.",
+  "The Magical Library - Enter a library where books come to life and characters step out of their stories.",
+  "The Midnight Circus - Explore a circus that appears only at midnight, filled with fantastical creatures and breathtaking performances.",
+  "The Whispering Woods - Journey through a forest where the trees talk and every creature has a story to tell.",
+  "The Sky Kingdom - Travel to a kingdom in the clouds where children can fly and play among the stars.",
+  "The Lost Kingdom of Atlantis - Dive deep into the ocean to find the lost city of Atlantis and its amazing inhabitants.",
+  "The Crystal Caverns - Venture into glowing crystal caves with secrets that light up the night.",
+  "The Phantom Ship - Sail with a ghostly crew on an eerie ship that appears only under the moonlight.",
+  "The Guardian of the Galaxy - Embark on an interstellar adventure with a young guardian protecting the universe.",
+  "The Dream Weaver's Tale - Meet the Dream Weaver who creates dreams for all the children in the world.",
+  "The Moonstone Mystery - Solve the mystery of the missing moonstone that holds the key to a hidden realm.",
+  "The Magical Menagerie - Visit a zoo where the animals have special powers and magical abilities.",
+  "The Time Traveler's Diary - Discover the diary of a time traveler and embark on adventures through different eras.",
+  "The Haunted Carousel - Ride a magical carousel that brings legends and fairy tales to life.",
+  "The Secret Garden of Wishes - Find a garden where every flower represents a child's wish waiting to come true.",
+  "The Star Whisperer - Meet a young girl who can communicate with stars and learn their ancient stories.",
+  "The Midnight Rescue - Join a group of friends on a daring rescue mission to save creatures trapped in a mysterious land.",
+  "The Forest of Fairy Tales - Wander through a forest where every tree tells a different fairy tale.",
+  "The Spellbound Castle - Explore a castle enchanted by powerful spells and hidden treasures.",
+  "The Mermaid's Melody - Listen to the enchanting songs of mermaids that can calm storms and bring peace.",
+  "The Phoenix's Flame - Discover the legend of the Phoenix and the magical flame that never dies.",
+  "The Knight of Dreams - Follow a brave knight who battles nightmares to protect children's dreams.",
+  "The Hidden Valley - Find a hidden valley filled with mythical creatures and untold wonders.",
+  "The Astral Adventures - Travel through space on a ship that visits planets made of candy, music, and more.",
+  "The Kingdom of Shadows - Defeat the shadows that threaten to overrun a magical kingdom.",
+  "The Wandering Wizard - Follow a wandering wizard who grants wishes and solves riddles.",
+  "The Secret of the Moonstone - Unlock the power of a moonstone to travel between realms.",
+  "The Enchanted River - Journey down a river that flows through lands of ice, fire, and magic.",
+  "The Star Catcher's Quest - Help a star catcher gather fallen stars to light up the sky.",
+  "The Magical Mask - Wear a mask that lets you step into the lives of different storybook characters.",
+  "The Phantom Knight - Unravel the mystery of a knight who appears only when the moon is full.",
+  "The Wizard's Apprentice - Learn the secrets of magic with a young apprentice and their wise mentor.",
+  "The Shadowland - Brave the land of shadows to find the light that will restore balance.",
+  "The Golden Feather - Find the golden feather that grants the power of flight and adventure.",
+  "The Dream Carousel - Ride a carousel that brings dreams to life with every turn.",
+  "The Forest of Wonders - Discover the wonders hidden in a magical forest where anything is possible.",
+  "The Moonlight Ball - Attend a grand ball where mythical creatures dance under the moonlight.",
+  "The Lost Treasure of Lumina - Hunt for the lost treasure in the glowing city of Lumina.",
+  "The Enchanted Lantern - Use a lantern that reveals hidden paths and secret worlds.",
+  "The Stardust Expedition - Embark on an expedition to collect stardust and uncover cosmic secrets.",
+  "The Talking Trees - Listen to the tales of wise old trees that have witnessed centuries of history.",
+  "The Dream Keeper - Meet the guardian who keeps and protects the dreams of children.",
+  "The Moonlit Garden - Stroll through a garden that blooms only under the moon's gentle glow.",
+  "The Magical Quill - Write stories that come to life with a quill that holds ancient magic.",
+  "The Starry Night Journey - Travel through a night sky filled with constellations that tell their own stories.",
 ];
-
-console.log(bedtimeStories);
 
 export function CreateStoryForm() {
   const router = useRouter();
@@ -78,25 +77,33 @@ export function CreateStoryForm() {
   const [language, setLanguage] = useState("english");
   const [ageGroup, setAgeGroup] = useState("");
   const [illustrationType, setIllustrationType] = useState("");
+  const [gender, setGender] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const formData = {
-      title,
-      moral,
-      language,
-      ageGroup,
-      illustrationType,
-    };
-    const data = await createStory(formData);
-    router.push(`/story/${data.id}`);
-    setLoading(false);
+    try {
+      const formData = {
+        title,
+        moral,
+        language,
+        ageGroup,
+        illustrationType,
+        gender,
+      };
+      const data = await createStory(formData);
+      toast.success("Story created successfully!");
+      router.push(`/story/${data.id}`);
+    } catch (error) {
+      toast.error(`Error: ${error}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   function randomStoriesTitle() {
-    const number = Math.floor(Math.random() * 50);
+    const number = Math.floor(Math.random() * bedtimeStories.length);
     setTitle(bedtimeStories[number]);
   }
 
@@ -189,6 +196,22 @@ export function CreateStoryForm() {
             </div>
           </RadioGroup>
         </div>
+        <div className="space-y-2">
+          <Label>Gender</Label>
+          <RadioGroup
+            value={gender}
+            onValueChange={(value) => setGender(value)}
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="boy" id="gender-boy" />
+              <Label htmlFor="gender-boy">Boy</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="girl" id="gender-girl" />
+              <Label htmlFor="gender-girl">Girl</Label>
+            </div>
+          </RadioGroup>
+        </div>
         <Button
           className="w-full flex items-center"
           type="submit"
@@ -196,7 +219,7 @@ export function CreateStoryForm() {
         >
           <Loader
             size={16}
-            className={` animate-spin ${loading ? "block" : "hidden"} mr-2`}
+            className={`animate-spin ${loading ? "block" : "hidden"} mr-2`}
           />
           Submit
         </Button>

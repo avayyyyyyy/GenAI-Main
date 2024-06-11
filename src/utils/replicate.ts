@@ -8,22 +8,20 @@ export async function generateImageFromReplicate({
   prompt,
   age,
   illustrationType,
+  gender,
 }: {
   prompt: string;
   age: string;
   illustrationType: string;
+  gender: string;
 }) {
-  console.log("generateImageFromReplicate called with prompt:", prompt);
-
   const output = await replicate.run(
     "fofr/epicrealismxl-lightning-hades:0ca10b1fd361c1c5568720736411eaa89d9684415eb61fd36875b4d3c20f605a",
     {
       input: {
-        prompt: `create a imaginary high quality 3d rendered ${illustrationType} watercolor like image of a girl with a scenerio of  ${prompt} of a ${age} year of girl`,
+        prompt: `create a imaginary high quality rendered ${illustrationType} like image of a ${gender} with a scenerio of  ${prompt} of around ${age} year of girl and in some way the face should be visible of that charactor`,
       },
     }
   );
-
-  console.log("Response from Replicate API:", output);
   return output[0];
 }

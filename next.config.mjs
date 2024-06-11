@@ -10,6 +10,10 @@ const nextConfig = {
         hostname: "storage.googleapis.com",
         protocol: "https",
       },
+      {
+        hostname: "utfs.io",
+        protocol: "https",
+      },
     ],
   },
 };

@@ -10,12 +10,14 @@ export const createStory = async ({
   language,
   ageGroup,
   illustrationType,
+  gender,
 }: {
   title: string;
   moral: string;
   language: string;
   ageGroup: string;
   illustrationType: string;
+  gender: string;
 }) => {
   const session = await auth();
 
@@ -30,7 +32,7 @@ export const createStory = async ({
   const user = await prisma.user.findUnique({
     where: { email: session.user.email },
   });
-  
+
   const createdStory = await prisma.story.create({
     data: {
       title,
@@ -41,55 +43,74 @@ export const createStory = async ({
     },
   });
 
-  const res = await GenerateBody({
-    prompt: createdStory.title,
-    age: createdStory.age,
-    moral: createdStory.moral || "",
-    language: createdStory.language!,
-  });
+  let response;
+  try {
+    let res;
+    while (true) {
+      try {
+        res = await GenerateBody({
+          prompt: createdStory.title,
+          age: createdStory.age,
+          moral: createdStory.moral || "",
+          language: createdStory.language!,
+        });
+        response = JSON.parse(res);
+        break;
+      } catch (error) {
+        console.error("Error parsing JSON response:", error);
+      }
+    }
 
-  const response = JSON.parse(res);
-  const updatedStoryWithBody = await prisma.story.update({
-    where: { id: createdStory.id },
-    data: { body: response.story },
-  });
-
-  const mainImage = await generateImageFromReplicate({
-    prompt: updatedStoryWithBody.title,
-    age: updatedStoryWithBody.age,
-    illustrationType: updatedStoryWithBody.illustration,
-  });
-
-  let userImageRequestId = null;
-  if (user?.providedImage) {
-    const requestBody = {
-      model: "FACESWAP",
-      payload: {
-        video: mainImage,
-        image: user.providedImage,
-      },
-    };
-
-    const resp = await fetch("https://api.lica.world/api/v1/ml-requests/", {
-      method: "POST",
-      headers: {
-        "x-api-key": "ZRSJQhlxc3i2tZL6BPqNHLvFCqLOyaT6",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
+    const updatedStoryWithBody = await prisma.story.update({
+      where: { id: createdStory.id },
+      data: { body: response.story },
     });
 
-    const responseData = await resp.json();
-    userImageRequestId = responseData.data.request_id;
+    const mainImage = await generateImageFromReplicate({
+      prompt: updatedStoryWithBody.title,
+      age: updatedStoryWithBody.age,
+      illustrationType: updatedStoryWithBody.illustration,
+      gender,
+    });
+
+    let userImageRequestId = null;
+    if (user?.providedImage) {
+      const requestBody = {
+        model: "FACESWAP",
+        payload: {
+          video: mainImage,
+          image: user.providedImage,
+        },
+      };
+
+      const resp = await fetch("https://api.lica.world/api/v1/ml-requests/", {
+        method: "POST",
+        headers: {
+          "x-api-key": "ZRSJQhlxc3i2tZL6BPqNHLvFCqLOyaT6",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!resp.ok) {
+        throw new Error("Failed to request image swap");
+      }
+
+      const responseData = await resp.json();
+      userImageRequestId = responseData.data.request_id;
+    }
+
+    const finalStory = await prisma.story.update({
+      where: { id: createdStory.id },
+      data: {
+        mainImage: mainImage,
+        userImage: userImageRequestId,
+      },
+    });
+
+    return finalStory;
+  } catch (error) {
+    console.error("Error creating story:", error);
+    throw new Error("Failed to create story. Please try again later.");
   }
-
-  const finalStory = await prisma.story.update({
-    where: { id: createdStory.id },
-    data: {
-      mainImage: mainImage,
-      userImage: userImageRequestId,
-    },
-  });
-
-  return finalStory;
 };

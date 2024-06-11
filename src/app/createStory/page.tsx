@@ -20,8 +20,6 @@ async function page() {
     },
   });
 
-  console.log(isIphotoAvailable);
-
   if (!isIphotoAvailable?.providedImage) {
     return redirect("/addPhoto");
   }

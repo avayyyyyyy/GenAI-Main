@@ -23,7 +23,7 @@ export default async function Home() {
         stories about them, their toys and their characters.
       </div>
       <Link
-        href={"/createStory"}
+      href={"/createStory"}
         className="mt-20 px-3 py-1 border border-primary bg-primary text-primary-foreground flex items-center rounded-full hover:shadow-xl duration-150"
       >
         Create a story <ArrowRight size={16} className="ml-1" />

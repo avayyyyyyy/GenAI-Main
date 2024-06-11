@@ -4,17 +4,30 @@ import { auth } from "@/utils/auth";
 import prisma from "@/utils/db";
 
 export const saveUserProvidedImage = async (url: string) => {
-  const session = await auth();
-  const userImage = await prisma.user.update({
-    where: {
-      email: session?.user?.email!,
-    },
-    data: {
-      providedImage: url,
-    },
-  });
+  try {
+    const session = await auth();
 
-  console.log(userImage);
+    if (!session?.user?.email) {
+      throw new Error("User Not Authorized!");
+    }
 
-  return { success: true, userImage };
+    const userImage = await prisma.user.update({
+      where: {
+        email: session.user.email,
+      },
+      data: {
+        providedImage: url,
+      },
+    });
+
+    console.log(userImage);
+
+    return { success: true, userImage };
+  } catch (error) {
+    console.error("Error saving user provided image:", error);
+    return {
+      success: false,
+      message: "Failed to save user provided image. Please try again later.",
+    };
+  }
 };
