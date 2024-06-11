@@ -6,6 +6,10 @@ const nextConfig = {
         hostname: "replicate.delivery",
         protocol: "https",
       },
+      {
+        hostname: "storage.googleapis.com",
+        protocol: "https",
+      },
     ],
   },
 };

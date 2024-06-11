@@ -1,6 +1,6 @@
-import { auth } from "@/auth";
+import { auth } from "@/utils/auth";
 import { Button } from "@/components/ui/button";
-import prisma from "@/db";
+import prisma from "@/utils/db";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";

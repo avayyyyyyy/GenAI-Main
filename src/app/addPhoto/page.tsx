@@ -1,5 +1,5 @@
+import UploadImage from "@/components/UploadPhoto";
 import { auth } from "@/utils/auth";
-import { CreateStoryForm } from "@/components/create-story-form";
 import prisma from "@/utils/db";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -22,17 +22,17 @@ async function page() {
 
   console.log(isIphotoAvailable);
 
-  if (!isIphotoAvailable?.providedImage) {
-    return redirect("/addPhoto");
+  if (isIphotoAvailable?.providedImage) {
+    return redirect("/createStory");
   }
 
   return (
-    <div>
-      <div className="text-center font-semibold text-5xl mb-5">
-        Create your story!
+    <div className="flex flex-col justify-center items-center">
+      <div className="text-6xl font-bold">Upload Your Image</div>
+      <div className="mt-4 text-sm">Please Upload your image first!</div>
+      <div>
+        <UploadImage />
       </div>
-      <hr className="my-4" />
-      <CreateStoryForm />
     </div>
   );
 }

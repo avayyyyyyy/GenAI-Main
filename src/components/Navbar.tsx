@@ -1,5 +1,5 @@
 import React from "react";
-import { auth } from "../auth";
+import { auth } from "@/utils/auth";
 import { SignIn } from "./SignIn";
 import { SignOut } from "./SignOut";
 import Link from "next/link";
@@ -15,6 +15,9 @@ async function Navbar() {
         </Link>
         <Link href={"/manage"} className="hover:underline">
           Manage
+        </Link>
+        <Link href={"/createStory"} className="hover:underline">
+          create story
         </Link>
       </div>
       <div>{session?.user?.email ? <SignOut /> : <SignIn />}</div>
