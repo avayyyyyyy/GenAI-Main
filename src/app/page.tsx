@@ -10,6 +10,8 @@ export default async function Home() {
     return redirect("/createStory");
   }
 
+  console.log(session);
+
   return (
     <main className="flex flex-col justify-center items-center mt-32">
       <div className="bg-gradient-to-br from-primary to-[#394250] text-transparent text-center  bg-clip-text">
@@ -23,7 +25,7 @@ export default async function Home() {
         stories about them, their toys and their characters.
       </div>
       <Link
-      href={"/createStory"}
+        href={"/createStory"}
         className="mt-20 px-3 py-1 border border-primary bg-primary text-primary-foreground flex items-center rounded-full hover:shadow-xl duration-150"
       >
         Create a story <ArrowRight size={16} className="ml-1" />

@@ -19,11 +19,7 @@ const ImageToShow = ({
 
   return (
     <div className="flex flex-col items-center gap-3 justify-center my-4">
-      {showSwappedImage ? (
-        <video width={400} height={400} className="rounded-lg" controls>
-          <source src={swappedImage} type="video/mp4" />
-        </video>
-      ) : (
+      {!showSwappedImage ? (
         <Image
           width={400}
           height={400}
@@ -31,6 +27,10 @@ const ImageToShow = ({
           src={mainImage}
           alt={title}
         />
+      ) : (
+        <video width={400} height={400} className="rounded-lg" controls>
+          <source src={swappedImage} type="video/mp4" />
+        </video>
       )}
       <label className="flex items-center mt-2">
         <input
