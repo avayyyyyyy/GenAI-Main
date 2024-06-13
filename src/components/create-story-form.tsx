@@ -64,7 +64,6 @@ const bedtimeStories = [
   "The Stardust Expedition - Embark on an expedition to collect stardust and uncover cosmic secrets.",
   "The Talking Trees - Listen to the tales of wise old trees that have witnessed centuries of history.",
   "The Dream Keeper - Meet the guardian who keeps and protects the dreams of children.",
-  "The Moonlit Garden - Stroll through a garden that blooms only under the moon's gentle glow.",
   "The Magical Quill - Write stories that come to life with a quill that holds ancient magic.",
   "The Starry Night Journey - Travel through a night sky filled with constellations that tell their own stories.",
 ];

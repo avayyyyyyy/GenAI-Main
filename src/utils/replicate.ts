@@ -31,7 +31,7 @@ export async function generateImageFromReplicate({
       "fofr/epicrealismxl-lightning-hades:0ca10b1fd361c1c5568720736411eaa89d9684415eb61fd36875b4d3c20f605a",
       {
         input: {
-          prompt: `create imaginary high quality rendered ${illustrationType} like image for a ${gender} of around ${age} years old with a scenario of ${currentPrompt} and in some way the character should be visible`,
+          prompt: `create imaginary high quality rendered ${illustrationType} like images based on different scenarios of this story:  ${currentPrompt} and mention a ${gender} of around ${age} years old  in some way that it should be visible`,
           negative_prompt: "hands, spots, photo, text, watermark, face hidden",
           number_of_images: 1,
         },
