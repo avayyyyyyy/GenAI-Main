@@ -28,10 +28,10 @@ export async function generateImageFromReplicate({
 
     // Run the Replicate API with the current prompt
     const output = (await replicate.run(
-      "fofr/epicrealismxl-lightning-hades:0ca10b1fd361c1c5568720736411eaa89d9684415eb61fd36875b4d3c20f605a",
+      "bytedance/sdxl-lightning-4step:5f24084160c9089501c1b3545d9be3c27883ae2239b6f412990e82d4a6210f8f",
       {
         input: {
-          prompt: `Create a high-quality, rendered ${illustrationType} image of a scene from the following story: ${currentPrompt}. The scene should feature a ${gender} child, approximately ${age} years old. The child should be prominently visible and engaged in an activity relevant to the scene. The environment should be detailed and immersive, with elements that reflect the story's setting. Avoid hands, spots, photos, text, watermarks, and obscured faces.`,
+          prompt: `Create a high-quality, rendered ${illustrationType} image of a scene from the following story: ${currentPrompt}. The scene should feature a ${gender} child, approximately ${age} years old. The child should be prominently visible and engaged in an activity relevant to the scene. The environment should be detailed and immersive, with elements that reflect the story's setting.`,
           negative_prompt: "hands, spots, photo, text, watermark, face hidden",
           number_of_images: 1,
         },
