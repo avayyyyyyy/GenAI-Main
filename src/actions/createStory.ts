@@ -44,7 +44,7 @@ export const createStory = async ({
       illustration: illustrationType,
       language,
       age: ageGroup,
-      userId: user.id, // Ensure userId is set correctly
+      userId: user.id,
     },
   });
 
@@ -52,12 +52,11 @@ export const createStory = async ({
     throw new Error("Story creation failed, ID is undefined");
   }
 
-  let response;
   try {
-    let res;
+    let response;
     while (true) {
       try {
-        res = await GenerateBody({
+        const res = await GenerateBody({
           prompt: createdStory.title,
           age: createdStory.age,
           moral: createdStory.moral || "",
@@ -72,7 +71,7 @@ export const createStory = async ({
 
     const updatedStoryWithBody = await prisma.story.update({
       where: { id: createdStory.id },
-      data: { body: response?.story },
+      data: { body: response.story },
     });
 
     const mainImage = await generateImageFromReplicate({
@@ -82,14 +81,14 @@ export const createStory = async ({
       gender,
     });
 
-    const first = mainImage.split(" **** ")[0];
+    const firstImage = mainImage.split(" **** ")[0];
 
     let userImageRequestId = null;
     if (user.providedImage) {
       const requestBody = {
         model: "FACESWAP",
         payload: {
-          video: first,
+          video: firstImage,
           image: user.providedImage,
         },
       };
