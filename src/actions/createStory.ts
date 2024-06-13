@@ -61,9 +61,13 @@ export const createStory = async ({
       }
     }
 
+    console.log("here before error");
+
+    console.log(createdStory);
+
     const updatedStoryWithBody = await prisma.story.update({
-      where: { id: createdStory.id },
-      data: { body: response.story },
+      where: { id: createdStory?.id },
+      data: { body: response?.story },
     });
 
     const mainImage = await generateImageFromReplicate({
