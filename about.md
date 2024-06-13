@@ -4,6 +4,7 @@
 
 - **Team Name:** Team 20
 - **Team Member:** Shubhankit
+- **Team Member:** Aniruddh
 
 ## Introduction
 

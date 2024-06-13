@@ -32,7 +32,7 @@ async function Navbar() {
             >
               <Button
                 variant={"outline"}
-                className="hover:bg-[#dbd0c3] bg-[#FEF2E2] border-primary/30  duration-100"
+                className="hover:bg-slate-100 border-primary/30  duration-100"
               >
                 {" "}
                 Your Stories
