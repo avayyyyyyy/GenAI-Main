@@ -17,6 +17,8 @@ const ImageToShow = ({
     setShowSwappedImage(!showSwappedImage);
   };
 
+  console.log(mainImage);
+
   return (
     <div className="flex flex-col items-center gap-3 justify-center my-4">
       {!showSwappedImage ? (
@@ -28,7 +30,7 @@ const ImageToShow = ({
           alt={title}
         />
       ) : (
-        <video width={300} height={300} className="rounded-lg">
+        <video width={300} height={300} className="rounded-lg" controls>
           <source src={swappedImage} type="video/mp4" />
         </video>
       )}
