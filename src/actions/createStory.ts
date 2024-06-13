@@ -33,6 +33,10 @@ export const createStory = async ({
     where: { email: session.user.email },
   });
 
+  if (!user) {
+    throw new Error("User not found");
+  }
+
   const createdStory = await prisma.story.create({
     data: {
       title,
@@ -40,8 +44,13 @@ export const createStory = async ({
       illustration: illustrationType,
       language,
       age: ageGroup,
+      userId: user.id, // Ensure userId is set correctly
     },
   });
+
+  if (!createdStory || !createdStory.id) {
+    throw new Error("Story creation failed, ID is undefined");
+  }
 
   let response;
   try {
@@ -61,12 +70,8 @@ export const createStory = async ({
       }
     }
 
-    console.log("here before error");
-
-    console.log(createdStory);
-
     const updatedStoryWithBody = await prisma.story.update({
-      where: { id: createdStory?.id },
+      where: { id: createdStory.id },
       data: { body: response?.story },
     });
 
@@ -77,18 +82,14 @@ export const createStory = async ({
       gender,
     });
 
-    console.log(mainImage);
-
-    const first = mainImage.split(" **** ");
-
-    console.log(first[0]);
+    const first = mainImage.split(" **** ")[0];
 
     let userImageRequestId = null;
-    if (user?.providedImage) {
+    if (user.providedImage) {
       const requestBody = {
         model: "FACESWAP",
         payload: {
-          video: first[0],
+          video: first,
           image: user.providedImage,
         },
       };
