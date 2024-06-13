@@ -76,7 +76,7 @@ export const createStory = async ({
     });
 
     const mainImage = await generateImageFromReplicate({
-      prompt: updatedStoryWithBody.title,
+      prompt: updatedStoryWithBody.body!,
       age: updatedStoryWithBody.age,
       illustrationType: updatedStoryWithBody.illustration,
       gender,
@@ -94,10 +94,12 @@ export const createStory = async ({
         },
       };
 
+      const licaAPI = process.env.LICA_API;
+
       const resp = await fetch("https://api.lica.world/api/v1/ml-requests/", {
         method: "POST",
         headers: {
-          "x-api-key": "ZRSJQhlxc3i2tZL6BPqNHLvFCqLOyaT6",
+          "x-api-key": licaAPI!,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(requestBody),

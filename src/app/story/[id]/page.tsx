@@ -36,6 +36,8 @@ async function page({ params }: { params: { id: string } }) {
       return redirect("/not-found");
     }
 
+    const licaAPI = process.env.LICA_API;
+
     let swappedImage = null;
     if (story.userImage) {
       try {
@@ -43,7 +45,7 @@ async function page({ params }: { params: { id: string } }) {
           `https://api.lica.world/api/v1/ml-requests/${story.userImage}/`,
           {
             headers: {
-              "x-api-key": "ZRSJQhlxc3i2tZL6BPqNHLvFCqLOyaT6",
+              "x-api-key": licaAPI!,
               "Content-Type": "application/json",
             },
           }

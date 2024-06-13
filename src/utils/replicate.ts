@@ -1,7 +1,7 @@
 import Replicate from "replicate";
 
 const replicate = new Replicate({
-  auth: process.env.NEXT_PUBLIC_REPLICATE_API_TOKEN,
+  auth: process.env.REPLICATE_API_TOKEN,
 });
 
 interface ReplicateOutput {
@@ -31,7 +31,7 @@ export async function generateImageFromReplicate({
       "fofr/epicrealismxl-lightning-hades:0ca10b1fd361c1c5568720736411eaa89d9684415eb61fd36875b4d3c20f605a",
       {
         input: {
-          prompt: `create imaginary high quality rendered ${illustrationType} like images based on different scenarios of this story:  ${currentPrompt} and mention a ${gender} of around ${age} years old  in some way that it should be visible`,
+          prompt: `Create a high-quality, rendered ${illustrationType} image of a scene from the following story: ${currentPrompt}. The scene should feature a ${gender} child, approximately ${age} years old. The child should be prominently visible and engaged in an activity relevant to the scene. The environment should be detailed and immersive, with elements that reflect the story's setting. Avoid hands, spots, photos, text, watermarks, and obscured faces.`,
           negative_prompt: "hands, spots, photo, text, watermark, face hidden",
           number_of_images: 1,
         },
