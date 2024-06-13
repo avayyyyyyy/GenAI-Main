@@ -2,12 +2,19 @@ import { auth } from "@/utils/auth";
 import { Button } from "@/components/ui/button";
 import prisma from "@/utils/db";
 import { Home } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 import ImageToShow from "@/components/Imgagetoshow";
 import { AudioPlayer } from "@/components/AudioPlayer";
+import dynamic from "next/dynamic";
+
+const DownloadPdfButton = dynamic(
+  () => import("@/components/DownloadPdfButton"),
+  {
+    ssr: false,
+  }
+);
 
 async function page({ params }: { params: { id: string } }) {
   try {
@@ -58,26 +65,37 @@ async function page({ params }: { params: { id: string } }) {
     }
 
     return (
-      <div className="max-w-[40vw] my-20 mx-auto border border-primary/40 shadow-2xl p-4 rounded-lg">
-        <div className="text-center text-2xl px-3 font-bold mb-4">
-          {story.title}
+      <>
+        <div
+          id="story-content"
+          className="w-[210mm] h-fit p-4 mx-auto border border-primary/40 shadow-2xl rounded-lg"
+        >
+          <div className="text-center text-2xl px-3 font-bold mb-4">
+            {story.title}
+          </div>
+          <ImageToShow
+            mainImage={story.mainImage!}
+            swappedImage={swappedImage}
+            title={story.title}
+          />
+          <div className="text-lg px-2 text-center">{story.body}</div>
         </div>
-        <ImageToShow
-          mainImage={story.mainImage!}
-          swappedImage={swappedImage}
-          title={story.title}
-        />
-        <div className="text-lg px-2 text-center">{story.body}</div>
-        <div className="flex flex-col gap-4 justify-center my-4">
-          <AudioPlayer audioID={story.audioID!} storyBody={story.body || ""} />
-          <Link href="/" className="flex items-center w-full">
-            <Button className="w-full">
-              Create More Stories
-              <Home className="ml-2" size={16} />
-            </Button>
-          </Link>
+        <div className="my-20">
+          <div className="flex gap-4 justify-center my-4">
+            <AudioPlayer
+              audioID={story.audioID!}
+              storyBody={story.body || ""}
+            />
+            <Link href="/" className="flex items-center">
+              <Button className="w-full">
+                Create More Stories
+                <Home className="ml-2" size={16} />
+              </Button>
+            </Link>
+            <DownloadPdfButton />
+          </div>
         </div>
-      </div>
+      </>
     );
   } catch (error) {
     console.error("Error in page function:", error);

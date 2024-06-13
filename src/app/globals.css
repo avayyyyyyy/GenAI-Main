@@ -74,3 +74,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+#story-content {
+  width: 210mm;
+  padding: 20mm;
+  box-sizing: border-box;
+  overflow: hidden;
+}

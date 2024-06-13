@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 const ImageToShow = ({
@@ -21,14 +21,14 @@ const ImageToShow = ({
     <div className="flex flex-col items-center gap-3 justify-center my-4">
       {!showSwappedImage ? (
         <Image
-          width={400}
-          height={400}
+          width={300}
+          height={300}
           className="rounded-lg"
           src={mainImage}
           alt={title}
         />
       ) : (
-        <video width={400} height={400} className="rounded-lg" controls>
+        <video width={300} height={300} className="rounded-lg" controls>
           <source src={swappedImage} type="video/mp4" />
         </video>
       )}
