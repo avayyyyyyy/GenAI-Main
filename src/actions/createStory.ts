@@ -73,12 +73,18 @@ export const createStory = async ({
       gender,
     });
 
+    console.log(mainImage);
+
+    const first = mainImage.split(" **** ");
+
+    console.log(first[0]);
+
     let userImageRequestId = null;
     if (user?.providedImage) {
       const requestBody = {
         model: "FACESWAP",
         payload: {
-          video: mainImage,
+          video: first[0],
           image: user.providedImage,
         },
       };

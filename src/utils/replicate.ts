@@ -19,15 +19,60 @@ export async function generateImageFromReplicate({
   illustrationType: string;
   gender: string;
 }): Promise<string> {
-  // Cast the output to the expected type
-  const output = (await replicate.run(
-    "fofr/epicrealismxl-lightning-hades:0ca10b1fd361c1c5568720736411eaa89d9684415eb61fd36875b4d3c20f605a",
-    {
-      input: {
-        prompt: `create a imaginary high quality rendered ${illustrationType} like image of a ${gender} with a scenerio of  ${prompt} of around ${age} year of girl and in some way the face should be visible of that charactor`,
-      },
-    }
-  )) as ReplicateOutput;
+  // Split the prompt into three parts based on paragraph breaks
+  const splittedPrompts = splitPromptIntoThreeParts(prompt);
 
-  return output[0];
+  let allImages = "";
+  for (let i = 0; i < 3; i++) {
+    const currentPrompt = splittedPrompts[i].trim();
+
+    // Run the Replicate API with the current prompt
+    const output = (await replicate.run(
+      "fofr/epicrealismxl-lightning-hades:0ca10b1fd361c1c5568720736411eaa89d9684415eb61fd36875b4d3c20f605a",
+      {
+        input: {
+          prompt: `create imaginary high quality rendered ${illustrationType} like image for a ${gender} of around ${age} years old with a scenario of ${currentPrompt} and in some way the character should be visible`,
+          negative_prompt: "hands, spots, photo, text, watermark, face hidden",
+          number_of_images: 1,
+        },
+      }
+    )) as ReplicateOutput;
+
+    // Assuming output is an array of URLs, concatenate the URLs with " **** "
+    if (output[0]) {
+      allImages += `${output[0]} **** `;
+    }
+  }
+
+  // Remove the last " **** " from the end of allImages
+  allImages = allImages.trim();
+
+  console.log(allImages);
+
+  return allImages;
+}
+
+// Helper function to split the prompt into three parts based on paragraph breaks
+function splitPromptIntoThreeParts(prompt: string): string[] {
+  const parts = [];
+  let currentPart = "";
+  const paragraphs = prompt.split("\n");
+
+  for (let paragraph of paragraphs) {
+    if ((currentPart + paragraph).length > prompt.length / 3) {
+      parts.push(currentPart.trim());
+      currentPart = "";
+    }
+    currentPart += paragraph + "\n";
+  }
+  if (currentPart.trim().length > 0) {
+    parts.push(currentPart.trim());
+  }
+
+  // Ensure there are exactly 3 parts
+  while (parts.length < 3) {
+    parts.push("");
+  }
+
+  return parts;
 }
