@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
-import { completeStoryCreation, createStoryBasic } from "@/actions/createStory";
+import { createStory } from "@/actions/createStory";
 import { useRouter } from "next/navigation";
 import { Loader, WandSparkles } from "lucide-react";
 import { toast } from "sonner";
@@ -92,17 +92,11 @@ export function CreateStoryForm() {
         gender,
       };
 
-      const createdStory = await createStoryBasic(formData);
+      const createdStory = await createStory(formData);
       console.log("Story created with ID:", createdStory.id);
 
-      const finalStory = await completeStoryCreation({
-        storyId: createdStory.id,
-        gender: gender,
-      });
-      console.log("Final story created with ID:", finalStory.id);
-
       toast.success("Story created successfully!");
-      router.push(`/story/${finalStory.id}`);
+      router.push(`/story/${createdStory.id}`);
     } catch (error: any) {
       console.error("Error creating story:", error);
       toast.error(`Error: ${error.message}`);
