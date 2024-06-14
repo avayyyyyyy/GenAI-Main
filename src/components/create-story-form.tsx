@@ -91,11 +91,19 @@ export function CreateStoryForm() {
         illustrationType,
         gender,
       };
+
+      console.log(formData)
       const data = await createStory(formData);
       toast.success("Story created successfully!");
-      router.push(`/story/${data.id}`);
-    } catch (error) {
-      toast.error(`Error: ${error}`);
+      console.log("Story created with ID:", data.id);
+      if (data && data.id) {
+        router.push(`/story/${data.id}`);
+      } else {
+        throw new Error("Story creation returned an invalid ID");
+      }
+    } catch (error: any) {
+      console.error("Error creating story:", error);
+      toast.error(`Error: ${error.message}`);
     } finally {
       setLoading(false);
     }
