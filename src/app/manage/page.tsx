@@ -13,7 +13,23 @@ const app = async () => {
     return redirect("/");
   }
 
-  const stories = await prisma.story.findMany();
+  const findUser = await prisma.user.findUnique({
+    where: {
+      email: session.user.email,
+    },
+  });
+
+  const stories = await prisma.story.findMany({
+    where: {
+      userId: findUser?.id,
+    },
+  });
+
+  const finalversion = stories.filter(
+    (e) => e.body != null || e.mainImage != null
+  );
+
+  console.log(finalversion);
 
   console.log(stories);
 
@@ -21,8 +37,8 @@ const app = async () => {
     <div>
       <div className="text-4xl text-center font-bold my-10">Manage Stories</div>
       <div className="flex flex-wrap gap-3 ">
-        {stories.length > 0 ? (
-          stories.map((e) => {
+        {finalversion.length > 0 ? (
+          finalversion.map((e) => {
             return (
               <div
                 key={e.id}

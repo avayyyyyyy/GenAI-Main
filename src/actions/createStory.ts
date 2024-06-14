@@ -1,25 +1,24 @@
+// actions/createStory.ts
 "use server";
 import { auth } from "@/utils/auth";
 import prisma from "@/utils/db";
 import { GenerateBody } from "@/utils/gemini";
 import { generateImageFromReplicate } from "@/utils/replicate";
 
-export const createStory = async ({
+export const createStoryBasic = async ({
   title,
   moral,
   language,
   ageGroup,
   illustrationType,
-  gender,
 }: {
   title: string;
   moral: string;
   language: string;
   ageGroup: string;
   illustrationType: string;
-  gender: string;
 }) => {
-  console.log("Starting createStory function");
+  console.log("Starting createStoryBasic function");
 
   try {
     const session = await auth();
@@ -58,6 +57,32 @@ export const createStory = async ({
       throw new Error("Story creation failed, ID is undefined");
     }
 
+    return createdStory;
+  } catch (error) {
+    console.error("Error in createStoryBasic function:", error);
+    throw new Error("Failed to create story. Please try again later.");
+  }
+};
+
+export const completeStoryCreation = async ({
+  storyId,
+  gender,
+}: {
+  storyId: string;
+  gender: string;
+}) => {
+  console.log("Starting completeStoryCreation function");
+
+  try {
+    const createdStory = await prisma.story.findUnique({
+      where: { id: storyId },
+    });
+    console.log("Story fetched from database:", createdStory);
+
+    if (!createdStory) {
+      throw new Error("Story not found");
+    }
+
     let response;
     let attempts = 0;
     const maxAttempts = 3;
@@ -69,6 +94,7 @@ export const createStory = async ({
           age: createdStory.age,
           moral: createdStory.moral || "",
           language: createdStory.language!,
+          gender: gender,
         });
         response = JSON.parse(res);
         console.log("Generated story body response:", response);
@@ -104,7 +130,11 @@ export const createStory = async ({
     console.log("First image URL extracted:", firstImage);
 
     let userImageRequestId = null;
-    if (user.providedImage) {
+    const user = await prisma.user.findUnique({
+      where: { id: createdStory.userId! },
+    });
+
+    if (user?.providedImage) {
       const requestBody = {
         model: "FACESWAP",
         payload: {
@@ -145,7 +175,9 @@ export const createStory = async ({
 
     return finalStory;
   } catch (error) {
-    console.error("Error in createStory function:", error);
-    throw new Error("Failed to create story. Please try again later.");
+    console.error("Error in completeStoryCreation function:", error);
+    throw new Error(
+      "Failed to complete story creation. Please try again later."
+    );
   }
 };

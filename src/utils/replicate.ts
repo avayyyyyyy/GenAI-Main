@@ -28,11 +28,12 @@ export async function generateImageFromReplicate({
 
     // Run the Replicate API with the current prompt
     const output = (await replicate.run(
-      "bytedance/sdxl-lightning-4step:5f24084160c9089501c1b3545d9be3c27883ae2239b6f412990e82d4a6210f8f",
+      "stability-ai/sdxl:7762fd07cf82c948538e41f63f77d685e02b063e37e496e96eefd46c929f9bdc",
       {
         input: {
-          prompt: `Create a high-quality, rendered ${illustrationType} image of a scene from the following story: ${currentPrompt}. The scene should feature a ${gender} child, approximately ${age} years old. The child should be prominently visible and engaged in an activity relevant to the scene. The environment should be detailed and immersive, with elements that reflect the story's setting.`,
-          negative_prompt: "hands, spots, photo, text, watermark, face hidden",
+          prompt: `Create a high-quality image in a ${illustrationType} way created somehow looks like a screenshot from the story: ${currentPrompt} like an animation going on. The scene should feature a ${gender}'s face, around ${age} years of age. The child's face should be prominently visible and engaged in an activity relevant to the story.`,
+          negative_prompt:
+            "nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry",
           number_of_images: 1,
         },
       }

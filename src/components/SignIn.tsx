@@ -6,10 +6,10 @@ export function SignIn() {
     <form
       action={async () => {
         "use server";
-        await signIn("github");
+        await signIn("google");
       }}
     >
-      <Button type="submit">SignIn with GitHub</Button>
+      <Button type="submit">Get Started</Button>
     </form>
   );
 }

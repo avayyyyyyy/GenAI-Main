@@ -20,11 +20,13 @@ export async function GenerateBody({
   age,
   moral,
   language,
+  gender,
 }: {
   prompt: string;
   age: string;
   language: string;
   moral: string;
+  gender: string;
 }) {
   console.log(prompt, age);
 
@@ -68,7 +70,7 @@ export async function GenerateBody({
   });
 
   if (moral) {
-    const finalPrompt = `You are a great storyteller who loves to tell bed time stories to the children, write a  paragraphs bed time story in ${language} language  for small girl of age group ${age} years, about ${prompt} which should be easy understandable, engaging and contains some sort of suspense and its moral should be ${moral}.`;
+    const finalPrompt = `You are a great storyteller who loves to tell bed time stories to the children, write a  paragraphs bed time story in ${language} language  for ${gender} of age group ${age} years, about ${prompt} which should be easy understandable, engaging and contains some sort of suspense and its moral should be ${moral}.`;
 
     const result = await chatSession.sendMessage(finalPrompt);
     console.log(result);

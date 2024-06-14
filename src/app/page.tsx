@@ -14,7 +14,7 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col justify-center items-center mt-32">
-      <div className="bg-gradient-to-br from-primary to-[#394250] text-transparent text-center  bg-clip-text">
+      <div className="bg-gradient-to-br from-gray-800 to-gray-950 text-transparent text-center  bg-clip-text">
         <div className="text-7xl font-light">Spark the love of </div>
         <div className="font-semibold text-7xl mt-2">
           bed time stories with AI
