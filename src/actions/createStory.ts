@@ -25,8 +25,6 @@ export const createStory = async ({
     const session = await auth();
     console.log("User session obtained:", session);
 
-    console.log(session);
-
     if (!session?.user?.email) {
       throw new Error("User Not Authorized!");
     }
@@ -61,9 +59,11 @@ export const createStory = async ({
     }
 
     let response;
-    while (true) {
+    let attempts = 0;
+    const maxAttempts = 3;
+    while (attempts < maxAttempts) {
       try {
-        console.log("Generating story body");
+        console.log("Generating story body attempt:", attempts + 1);
         const res = await GenerateBody({
           prompt: createdStory.title,
           age: createdStory.age,
@@ -74,7 +74,15 @@ export const createStory = async ({
         console.log("Generated story body response:", response);
         break;
       } catch (error) {
-        console.error("Error parsing JSON response:", error);
+        attempts++;
+        console.error("Error generating story body:", error);
+        if (attempts === maxAttempts) {
+          throw new Error(
+            "Failed to generate story body after multiple attempts"
+          );
+        }
+        // Add delay before retrying if needed
+        await new Promise((resolve) => setTimeout(resolve, 2000)); // 2 seconds delay
       }
     }
 
