@@ -37,6 +37,8 @@ export const createStory = async ({
     throw new Error("User not found");
   }
 
+  console.log(user.id);
+
   const createdStory = await prisma.story.create({
     data: {
       title,
@@ -51,6 +53,7 @@ export const createStory = async ({
   if (!createdStory || !createdStory.id) {
     throw new Error("Story creation failed, ID is undefined");
   }
+  console.log("createdStory.id:", createdStory.id);
 
   try {
     let response;
@@ -60,7 +63,7 @@ export const createStory = async ({
           prompt: createdStory.title,
           age: createdStory.age,
           moral: createdStory.moral || "",
-          language: createdStory.language!,
+          language: createdStory.language,
         });
         response = JSON.parse(res);
         break;
@@ -74,12 +77,16 @@ export const createStory = async ({
       data: { body: response.story },
     });
 
+    console.log("updatedStoryWithBody: ", updatedStoryWithBody);
+
     const mainImage = await generateImageFromReplicate({
       prompt: updatedStoryWithBody.body!,
       age: updatedStoryWithBody.age,
       illustrationType: updatedStoryWithBody.illustration,
       gender,
     });
+
+    console.log("mainImage: ", mainImage);
 
     const firstImage = mainImage.split(" **** ")[0];
 
@@ -110,6 +117,7 @@ export const createStory = async ({
 
       const responseData = await resp.json();
       userImageRequestId = responseData.data.request_id;
+      console.log("IMAGE ID: ", userImageRequestId);
     }
 
     const finalStory = await prisma.story.update({
@@ -119,6 +127,8 @@ export const createStory = async ({
         userImage: userImageRequestId,
       },
     });
+
+    console.log(finalStory.title);
 
     return finalStory;
   } catch (error) {
