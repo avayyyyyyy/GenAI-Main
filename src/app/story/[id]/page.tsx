@@ -9,6 +9,7 @@ import ImageToShow from "@/components/Imgagetoshow";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { Separator } from "@radix-ui/react-select";
 
 const DownloadPdfButton = dynamic(
   () => import("@/components/DownloadPdfButton"),
@@ -98,9 +99,9 @@ async function page({ params }: { params: { id: string } }) {
       <>
         <div
           id="story-content"
-          className="w-[210mm] h-fit p-4 mx-auto border border-primary/40 shadow-2xl rounded-lg"
+          className="w-[210mm] h-fit p-4 mx-auto border border-pink-800 shadow-2xl rounded-lg"
         >
-          <div className="text-center text-3xl px-3 font-bold mb-4">
+          <div className="text-center text-3xl px-3  font-bold mb-8">
             {story.title}
           </div>
           <ImageToShow
@@ -127,6 +128,9 @@ async function page({ params }: { params: { id: string } }) {
             alt={"image"}
           />
           <div className="text-lg px-2 text-center">{third.join(". ")}</div>
+          <div className="text-pink-800 text-center opacity-50 font-semibold  mt-10">
+            ---- @StoryDevs ----
+          </div>
         </div>
         <div className="my-20">
           <div className="flex gap-4 justify-center my-4">
@@ -135,7 +139,7 @@ async function page({ params }: { params: { id: string } }) {
               storyBody={story.body || ""}
             />
             <Link href="/" className="flex items-center">
-              <Button className="w-full">
+              <Button className="bg-pink-800 hover:bg-pink-900">
                 Create More Stories
                 <Home className="ml-2" size={16} />
               </Button>

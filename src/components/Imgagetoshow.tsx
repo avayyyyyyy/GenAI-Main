@@ -30,7 +30,7 @@ const ImageToShow = ({
           alt={title}
         />
       ) : (
-        <video width={300} height={300} className="rounded-lg" controls>
+        <video width={300} height={300} className="rounded-lg">
           <source src={swappedImage} type="video/mp4" />
         </video>
       )}

@@ -1,6 +1,6 @@
+import GetStarted from "@/components/GetStarted";
 import { auth } from "@/utils/auth";
-import { ArrowRight, ArrowRightToLineIcon } from "lucide-react";
-import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
@@ -14,7 +14,7 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col justify-center items-center mt-32">
-      <div className="bg-gradient-to-br from-gray-800 to-gray-950 text-transparent text-center  bg-clip-text">
+      <div className="bg-gradient-to-br from-pink-800 to-pink-950 text-transparent text-center  bg-clip-text">
         <div className="text-7xl font-light">Spark the love of </div>
         <div className="font-semibold text-7xl mt-2">
           bed time stories with AI
@@ -24,12 +24,17 @@ export default async function Home() {
         Create magical moments with your child by making magical bed time
         stories about them, their toys and their characters.
       </div>
-      <Link
-        href={"/createStory"}
-        className="mt-20 px-3 py-1 border border-primary bg-primary text-primary-foreground flex items-center rounded-full hover:shadow-xl duration-150"
-      >
-        Create a story <ArrowRight size={16} className="ml-1" />
-      </Link>
+      <GetStarted />
+      <Image
+        width={800}
+        height={800}
+        className=" rounded-2xl shadow-lg  mt-10"
+        src={
+          // "https://utfs.io/f/3b634229-4b1b-4c96-aec7-78d391cd23ef-h78716.png"
+          "https://utfs.io/f/652dac77-0778-4a00-9849-cdf085f95858-9mldjq.jpeg"
+        }
+        alt="Hero Image"
+      />
     </main>
   );
 }

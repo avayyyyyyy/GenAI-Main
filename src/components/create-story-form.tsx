@@ -115,10 +115,10 @@ export function CreateStoryForm() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="title" className="flex w-full justify-between">
-            <span>This story is about</span>
+            <span>This story is about:</span>
             <span
               onClick={randomStoriesTitle}
-              className="cursor-pointer p-1 bg-primary rounded-full text-primary-foreground"
+              className="cursor-pointer p-1.5 bg-pink-900 text-pink-100 rounded-full text-primary-foreground"
             >
               <WandSparkles size={16} />
             </span>
@@ -132,7 +132,7 @@ export function CreateStoryForm() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="moral">The moral of the story is - optional</Label>
+          <Label htmlFor="moral">The moral of the story: (optional)</Label>
           <Textarea
             id="moral"
             placeholder="Describe the moral of the story"
@@ -142,7 +142,7 @@ export function CreateStoryForm() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="language">Language</Label>
+          <Label htmlFor="language">Selct your preferred Language:</Label>
           <Select
             value={language}
             onValueChange={(value: string) => setLanguage(value)}
@@ -160,7 +160,7 @@ export function CreateStoryForm() {
           </Select>
         </div>
         <div className="space-y-2">
-          <Label>Age Group</Label>
+          <Label>Age Group:</Label>
           <RadioGroup
             value={ageGroup}
             onValueChange={(value) => setAgeGroup(value)}
@@ -180,7 +180,7 @@ export function CreateStoryForm() {
           </RadioGroup>
         </div>
         <div className="space-y-2">
-          <Label>Illustration Type</Label>
+          <Label>Illustration Type:</Label>
           <RadioGroup
             value={illustrationType}
             onValueChange={(value) => setIllustrationType(value)}
@@ -200,7 +200,7 @@ export function CreateStoryForm() {
           </RadioGroup>
         </div>
         <div className="space-y-2">
-          <Label>Gender</Label>
+          <Label>Gender:</Label>
           <RadioGroup
             value={gender}
             onValueChange={(value) => setGender(value)}
@@ -216,7 +216,7 @@ export function CreateStoryForm() {
           </RadioGroup>
         </div>
         <Button
-          className="w-full flex items-center"
+          className="w-full bg-pink-900 text-pink-100 hover:bg-pink-950  flex items-center"
           type="submit"
           disabled={loading}
         >

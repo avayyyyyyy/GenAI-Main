@@ -25,11 +25,11 @@ async function page() {
   }
 
   return (
-    <div>
-      <div className="text-center font-semibold text-5xl mb-5">
+    <div className="min-h-screen">
+      <div className="text-center font-semibold text-5xl mb-10">
         Create your story!
       </div>
-      <hr className="my-4" />
+      <hr className="my-10 text-pink-700" />
       <CreateStoryForm />
     </div>
   );

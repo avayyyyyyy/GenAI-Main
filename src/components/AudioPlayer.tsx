@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Play, StopCircle } from "lucide-react";
 
 export const AudioPlayer = ({
   storyBody,
@@ -38,6 +39,16 @@ export const AudioPlayer = ({
   }, [isPlaying]);
 
   return (
-    <Button onClick={handlePlayPause}>{isPlaying ? "Stop" : "Play"}</Button>
+    <Button className="bg-pink-800 hover:bg-pink-900" onClick={handlePlayPause}>
+      {isPlaying ? (
+        <span className="flex items-center gap-2">
+          Stop <StopCircle size={16} />
+        </span>
+      ) : (
+        <span className="flex items-center gap-2">
+          Play <Play size={16} />
+        </span>
+      )}
+    </Button>
   );
 };

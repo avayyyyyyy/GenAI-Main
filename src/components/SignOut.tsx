@@ -9,7 +9,9 @@ export function SignOut() {
         await signOut();
       }}
     >
-      <Button type="submit">SignOut</Button>
+      <Button className="bg-pink-800 hover:bg-pink-900" type="submit">
+        SignOut
+      </Button>
     </form>
   );
 }

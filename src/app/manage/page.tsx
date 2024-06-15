@@ -25,31 +25,34 @@ const app = async () => {
     },
   });
 
-  const finalversion = stories.filter(
-    (e) => e.body != null || e.mainImage != null
-  );
-
-  console.log(finalversion);
-
-  console.log(stories);
+  const finalversion = stories.filter((e) => {
+    return e.body !== null && e.mainImage !== null;
+  });
 
   return (
-    <div>
+    <div className=" min-h-[80vh]">
       <div className="text-4xl text-center font-bold my-10">Manage Stories</div>
-      <div className="flex flex-wrap gap-3 ">
+      <div className="flex justify-start items-center flex-wrap gap-8">
         {finalversion.length > 0 ? (
           finalversion.map((e) => {
             return (
               <div
                 key={e.id}
-                className="border flex flex-col  p-4 border-primary justify-between min-h-32  min-w-48 rounded-lg"
+                className="relative flex flex-col mt-6 text-gray-700 border border-pink-700  bg-white shadow-md bg-clip-border rounded-xl w-96"
               >
-                <div>
-                  {e.title.length > 20 ? `${e.title.slice(0, 20)}...` : e.title}
+                <div className="p-6">
+                  <h5 className="block mb-2 font-sans text-sm antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                    {e.title?.slice(0,60)}...
+                  </h5>
+                  <p className="block font-sans text-xs antialiased font-light leading-relaxed text-inherit">
+                    {e.body?.slice(0, 168)}...
+                  </p>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex p-6 pt-0 gap-3 items-center">
                   <Link href={`/story/${e.id}`}>
-                    <Button className="">view</Button>
+                    <Button size={"sm"} className="bg-pink-800 hover:bg-pink-900">
+                      View Story
+                    </Button>
                   </Link>
                   <DeleteStory id={e.id} />
                 </div>

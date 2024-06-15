@@ -44,7 +44,14 @@ const DownloadPdfButton = () => {
     }
   };
 
-  return <Button onClick={handleDownloadPdf}>Download as PDF</Button>;
+  return (
+    <Button
+      className="bg-pink-800 hover:bg-pink-900"
+      onClick={handleDownloadPdf}
+    >
+      Download as PDF
+    </Button>
+  );
 };
 
 export default DownloadPdfButton;

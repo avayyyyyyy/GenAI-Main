@@ -10,17 +10,23 @@ async function Navbar() {
   const session = await auth();
 
   return (
-    <div className="flex justify-between py-4 mb-20  border-b border-primary items-center">
+    <div className="flex justify-between py-4 mb-10  border-b border-primary items-center">
       <div className="flex gap-4 items-center">
-        <Link href={"/"} className="text-2xl font-bold">
+        <Link
+          href={"/"}
+          className="text-2xl flex items-center gap-2  font-bold"
+        >
           <Image
-            width={80}
-            height={80}
+            width={60}
+            height={60}
             src={
-              "https://utfs.io/f/178d9e01-3c79-4bbc-b458-ba72066d99f6-sv2igw.12.24_PM-removebg-preview.png"
+              "https://utfs.io/f/e8f8eeb2-1278-4fa1-ad49-a6ccd8b35a33-164wir.png"
             }
             alt="App Logo"
           />
+          <div className="text-pink-900 underline decoration-wavy  text-4xl font-bold">
+            StoryDev
+          </div>
         </Link>
       </div>
       <div>
@@ -32,7 +38,7 @@ async function Navbar() {
             >
               <Button
                 variant={"outline"}
-                className="hover:bg-[#dbd0c3] bg-[#FEF2E2] border-primary/30  duration-100"
+                className="hover:bg-pink-300 bg-pink-200 border-primary/30  duration-100"
               >
                 {" "}
                 Your Stories
@@ -42,7 +48,9 @@ async function Navbar() {
               href={"/createStory"}
               className="hover:underline font-semibold text-lg"
             >
-              <Button>create story</Button>
+              <Button className="bg-pink-800 hover:bg-pink-900">
+                create story
+              </Button>
             </Link>
             <SignOut />
           </div>
