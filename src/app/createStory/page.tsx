@@ -7,13 +7,13 @@ import React from "react";
 async function page() {
   const session = await auth();
 
-  if (session?.user?.email) {
+  if (!session?.user?.email) {
     return redirect("/");
   }
 
   const isIphotoAvailable = await prisma.user.findUnique({
     where: {
-      email: session?.user?.email!,
+      email: session.user.email,
     },
     select: {
       providedImage: true,
