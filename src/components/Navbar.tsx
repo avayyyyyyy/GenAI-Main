@@ -11,7 +11,7 @@ async function Navbar() {
   const session = await auth();
 
   return (
-    <div className="flex justify-between py-4 mb-10  border-b border-primary items-center">
+    <div className="flex justify-between py-4 mb-10  border-b border-pink-800 items-center">
       <div className="flex gap-4 items-center">
         <Link
           href={"/"}

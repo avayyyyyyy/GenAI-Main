@@ -13,7 +13,7 @@ export default async function Home() {
   console.log(session);
 
   return (
-    <main className="flex flex-col justify-center items-center mt-32">
+    <main className="flex flex-col justify-center items-center mt-20">
       <div className="bg-gradient-to-br from-pink-800 to-pink-950 text-transparent text-center  bg-clip-text">
         <div className="text-7xl font-light">Spark the love of </div>
         <div className="font-semibold text-7xl mt-2">

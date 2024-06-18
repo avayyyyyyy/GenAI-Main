@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "sonner";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,13 +21,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-gradient-to-br min-h-screen  from-white to-pink-200 pb-10 text-pink-800`}
+        className={`${inter.className} bg-gradient-to-br min-h-screen  from-white to-pink-200  text-pink-800`}
       >
         <div className="max-w-[80vw] mx-auto">
           <Navbar />
           {children}
         </div>
         <Toaster richColors />
+        <Footer />
       </body>
     </html>
   );
