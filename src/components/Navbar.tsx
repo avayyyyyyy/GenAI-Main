@@ -5,6 +5,7 @@ import { SignOut } from "./SignOut";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { Github } from "lucide-react";
 
 async function Navbar() {
   const session = await auth();
